@@ -10,10 +10,8 @@ Final-year project by Peace Georland ADIKPETO, Electrical Engineering, Industria
 
 ## Screenshots
 
-<!-- Uncomment when the images are added to docs/images/
 ![Ladder editor](docs/images/pp.png)
 ![Live simulation](docs/images/pt.png)
--->
 
 *Screenshots coming soon.*
 
