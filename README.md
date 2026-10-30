@@ -272,7 +272,6 @@ Issues and suggestions are welcome, especially on the safety concept and the lab
 
 ## License and contact
 
-License: to be defined.
+License:GNU General Public License v2.0
 
 Author: Peace Georland ADIKPETO, EPAC, Benin.
-Supervisor: to be added.
