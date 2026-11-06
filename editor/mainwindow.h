@@ -2,6 +2,9 @@
 #pragma once
 #include "editor_core.h"
 #include "ladder_scene.h"
+#include "simulator.h"
+#include "watchmodel.h"
+#include <QTableView>
 #include <QAction>
 #include <QCheckBox>
 #include <QCloseEvent>
@@ -24,7 +27,7 @@ protected:
 
 private:
     void apply(const QString &err);         // shows the error, or marks the program modified and refreshes
-    void tick();
+    void onStateChanged();
     void onSelect(Node *n);
     void onEdit(Node *n);
     void updateUi();
@@ -34,15 +37,15 @@ private:
     bool saveFile();
     bool saveFileAs();
     bool writeFile(const QString &path);
+    void exportC();
 
     ProgramEditor ed_;
-    struct Sim;                             // holds the engine (keeps the C header out of this file)
-    std::unique_ptr<Sim> sim_;
+    Simulator *sim_ = nullptr;              // owned by this window (Qt parent)
     LadderScene *scene_;
     QGraphicsView *view_;
-    QTimer timer_;
     QCheckBox *in_[8];
     QLabel *out_[6];
+    WatchModel *watch_ = nullptr;
     QAction *actUndo_ = nullptr, *actRedo_ = nullptr;
     QString path_;
     bool modified_ = false;

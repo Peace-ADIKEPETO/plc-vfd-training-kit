@@ -230,11 +230,70 @@ static void test_noprog_and_crc(void)
     CHECK(ld_crc16(v, sizeof v) == 0x0A84);
 }
 
+/* ---- forcing ---- */
+static void test_force_input(void)
+{
+    img_t im = {0};
+    BEGIN(&im); emit(&im, LD_OP_XIC, 0, 0, I(0), 0); emit(&im, LD_OP_OTE, 1, 0, Q(0), 0);
+    load_ok(&im);
+    eng.bits[I(0)] = 0; scans(1);   CHECK(eng.bits[Q(0)] == 0);
+    ld_force_input(&eng, 0, 1, 1);                       /* force I0 = 1, the physical input is still 0 */
+    eng.bits[I(0)] = 0; scans(1);   CHECK(eng.bits[Q(0)] == 1);
+    CHECK(eng.elem_power[0] == 1);                       /* the contact sees the forced value */
+    ld_force_input(&eng, 0, 0, 0);                       /* release */
+    eng.bits[I(0)] = 0; scans(1);   CHECK(eng.bits[Q(0)] == 0);
+    ld_force_input(&eng, 0, 1, 0);                       /* force I0 = 0 while the physical input is 1 */
+    eng.bits[I(0)] = 1; scans(1);   CHECK(eng.bits[Q(0)] == 0);
+}
+
+static void test_force_output(void)
+{
+    img_t im = {0};
+    BEGIN(&im); emit(&im, LD_OP_XIC, 0, 0, Q(0), 0); emit(&im, LD_OP_OTE, 1, 0, Q(1), 0);   /* reads Q0 before the coil */
+    BEGIN(&im); emit(&im, LD_OP_XIC, 2, 0, I(0), 0); emit(&im, LD_OP_OTE, 3, 0, Q(0), 0);   /* the coil of Q0 */
+    BEGIN(&im); emit(&im, LD_OP_XIC, 4, 0, Q(0), 0); emit(&im, LD_OP_OTE, 5, 0, Q(2), 0);   /* reads Q0 after the coil */
+    load_ok(&im);
+    eng.bits[I(0)] = 0; scans(1);
+    CHECK(eng.bits[Q(0)] == 0 && eng.bits[Q(1)] == 0 && eng.bits[Q(2)] == 0);
+    ld_force_output(&eng, 0, 1, 1);                      /* force Q0 on, the ladder says off */
+    scans(1);
+    CHECK(eng.bits[Q(0)] == 1);                          /* the force wins */
+    CHECK(eng.bits[Q(1)] == 1 && eng.bits[Q(2)] == 1);   /* every rung sees the forced value, before and after the coil */
+    CHECK(eng.elem_power[3] == 0);                       /* the animation still shows what the logic says */
+    ld_force_output(&eng, 0, 0, 0);                      /* release */
+    scans(2);
+    CHECK(eng.bits[Q(0)] == 0 && eng.bits[Q(1)] == 0 && eng.bits[Q(2)] == 0);
+    ld_force_output(&eng, 0, 1, 0);                      /* force Q0 off while the ladder turns it on */
+    eng.bits[I(0)] = 1; scans(2);
+    CHECK(eng.bits[Q(0)] == 0 && eng.bits[Q(2)] == 0);
+}
+
+static void test_force_misc(void)
+{
+    img_t im = {0};
+    BEGIN(&im); emit(&im, LD_OP_XIC, 0, 0, I(0), 0); emit(&im, LD_OP_OTE, 1, 0, Q(0), 0);
+    load_ok(&im);
+    ld_force_input(&eng, 3, 1, 5);                       /* any non-zero value means 1 */
+    CHECK(eng.force_i_en[3] == 1 && eng.force_i_val[3] == 1);
+    ld_force_input(&eng, 8, 1, 1);                       /* out of range: ignored, no crash */
+    ld_force_input(&eng, -1, 1, 1);
+    ld_force_output(&eng, 6, 1, 1);
+    ld_force_output(&eng, 5, 1, 1);
+    CHECK(eng.force_q_en[5] == 1);
+    ld_clear_forces(&eng);
+    CHECK(eng.force_i_en[3] == 0 && eng.force_q_en[5] == 0);
+    ld_force_input(&eng, 0, 1, 1);
+    ld_force_output(&eng, 0, 1, 1);
+    CHECK(ld_load(&eng, im.buf, finish(&im)) == LD_OK);  /* loading a program clears every force */
+    CHECK(eng.force_i_en[0] == 0 && eng.force_q_en[0] == 0);
+}
+
 int main(void)
 {
     test_latch(); test_ton(); test_tof(); test_tonr(); test_ctu();
     test_mov_compare(); test_elem_power(); test_nested_branch();
     test_validation(); test_bad_load_keeps_program(); test_noprog_and_crc();
+    test_force_input(); test_force_output(); test_force_misc();
     printf("%d checks, %d failures\n", checks, failures);
     return failures ? 1 : 0;
 }

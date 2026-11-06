@@ -23,6 +23,36 @@ static void decode(const uint8_t *p, ld_instr_t *o)
 
 void ld_init(ld_engine_t *e) { memset(e, 0, sizeof *e); }
 
+void ld_force_input(ld_engine_t *e, int index, int enable, int value)
+{
+    if (index < 0 || index >= LD_NUM_INPUTS) return;
+    e->force_i_en[index] = enable ? 1 : 0;
+    e->force_i_val[index] = value ? 1 : 0;
+}
+
+void ld_force_output(ld_engine_t *e, int index, int enable, int value)
+{
+    if (index < 0 || index >= LD_NUM_OUTPUTS) return;
+    e->force_q_en[index] = enable ? 1 : 0;
+    e->force_q_val[index] = value ? 1 : 0;
+}
+
+void ld_clear_forces(ld_engine_t *e)
+{
+    memset(e->force_i_en, 0, sizeof e->force_i_en);
+    memset(e->force_i_val, 0, sizeof e->force_i_val);
+    memset(e->force_q_en, 0, sizeof e->force_q_en);
+    memset(e->force_q_val, 0, sizeof e->force_q_val);
+}
+
+/* Forced bits are put back before the scan, so every rung sees them. */
+static void apply_forces(ld_engine_t *e)
+{
+    for (int i = 0; i < LD_NUM_INPUTS; i++)
+        if (e->force_i_en[i]) e->bits[LD_BIT_I + i] = e->force_i_val[i];
+    for (int i = 0; i < LD_NUM_OUTPUTS; i++)
+        if (e->force_q_en[i]) e->bits[LD_BIT_Q + i] = e->force_q_val[i];
+}
 /* Structure and address checks, decoding straight from the image bytes. */
 static ld_status_t validate(const uint8_t *ins, uint16_t n)
 {
@@ -96,6 +126,7 @@ ld_status_t ld_load(ld_engine_t *e, const uint8_t *img, size_t len)
     for (uint16_t i = 0; i < n; i++) decode(ins + (size_t)i * LD_INSTR_SIZE, &e->prog[i]);
     e->n_instr = n;
     e->loaded = 1;
+    ld_clear_forces(e);
     /* new program: clear timers, counters and animation state */
     memset(e->elem_power, 0, sizeof e->elem_power);
     memset(e->ctr_prev, 0, sizeof e->ctr_prev);
@@ -109,9 +140,11 @@ ld_status_t ld_load(ld_engine_t *e, const uint8_t *img, size_t len)
 ld_status_t ld_scan(ld_engine_t *e)
 {
     if (!e->loaded) return LD_ERR_NOPROG;
+
     uint8_t acc = 1;
     uint8_t stack[LD_STACK_DEPTH];
     int sp = 0;
+    apply_forces(e);
 
     for (uint16_t i = 0; i < e->n_instr; i++) {
         const ld_instr_t *in = &e->prog[i];
@@ -132,7 +165,11 @@ ld_status_t ld_scan(ld_engine_t *e)
             acc = stack[sp - 1];
             sp -= 2;
             break;
-        case LD_OP_OTE: e->bits[in->a] = acc; break;
+        case LD_OP_OTE:
+            e->bits[in->a] = acc;
+            if (in->a >= LD_BIT_Q && in->a < LD_BIT_Q + LD_NUM_OUTPUTS && e->force_q_en[in->a - LD_BIT_Q])
+                e->bits[in->a] = e->force_q_val[in->a - LD_BIT_Q];   /* a forced output cannot be changed by its coil */
+            break;
         case LD_OP_TON: {
             uint16_t *v = &e->regs[LD_REG_T + in->a];
             uint8_t *dn = &e->bits[LD_BIT_TDN + in->a];

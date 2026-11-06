@@ -43,6 +43,8 @@ extern "C" {
 #define LD_NUM_TIMERS    16
 #define LD_NUM_COUNTERS  16
 #define LD_NUM_ELEM      256
+#define LD_NUM_INPUTS    8               /* I0..I7 */
+#define LD_NUM_OUTPUTS   6               /* Q0..Q5 */
 
 enum {
     LD_OP_NOP = 0x00,
@@ -90,13 +92,17 @@ typedef struct {
 } ld_instr_t;
 
 typedef struct {
-    uint8_t    bits[LD_BIT_SPACE];       /* 0 or 1 */
-    uint16_t   regs[LD_REG_SPACE];
-    uint8_t    elem_power[LD_NUM_ELEM];  /* power flow after each element */
-    uint8_t    ctr_prev[LD_NUM_COUNTERS];
-    ld_instr_t prog[LD_MAX_INSTR];
-    uint16_t   n_instr;
-    uint8_t    loaded;
+        uint8_t    bits[LD_BIT_SPACE];       /* 0 or 1 */
+        uint16_t   regs[LD_REG_SPACE];
+        uint8_t    elem_power[LD_NUM_ELEM];  /* power flow after each element */
+        uint8_t    ctr_prev[LD_NUM_COUNTERS];
+        uint8_t    force_i_en[LD_NUM_INPUTS];    /* forced inputs: enable and value */
+        uint8_t    force_i_val[LD_NUM_INPUTS];
+        uint8_t    force_q_en[LD_NUM_OUTPUTS];   /* forced outputs: enable and value */
+        uint8_t    force_q_val[LD_NUM_OUTPUTS];
+        ld_instr_t prog[LD_MAX_INSTR];
+        uint16_t   n_instr;
+        uint8_t    loaded;
 } ld_engine_t;
 
 void        ld_init(ld_engine_t *e);
@@ -104,7 +110,12 @@ void        ld_init(ld_engine_t *e);
 ld_status_t ld_load(ld_engine_t *e, const uint8_t *image, size_t len);
 ld_status_t ld_scan(ld_engine_t *e);
 uint16_t    ld_crc16(const uint8_t *data, size_t len);   /* Modbus CRC-16 */
-
+/* Forcing: a forced bit keeps its value whatever the ladder or the hardware says.
+ * Out-of-range indexes are ignored. Any non-zero value means 1.
+ * ld_load() clears every force. */
+void        ld_force_input(ld_engine_t *e, int index, int enable, int value);
+void        ld_force_output(ld_engine_t *e, int index, int enable, int value);
+void        ld_clear_forces(ld_engine_t *e);
 #ifdef __cplusplus
 }
 #endif

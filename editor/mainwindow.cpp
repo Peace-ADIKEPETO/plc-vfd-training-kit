@@ -13,13 +13,14 @@
 #include <QStatusBar>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QPushButton>
+#include "watchmodel.h"
+#include "c_export.h"
 extern "C" {
 #include "ladder_engine.h"
 }
-
-struct MainWindow::Sim {
-    ld_engine_t eng;
-};
 
 namespace {
 
@@ -54,9 +55,11 @@ const PaletteEntry kPalette[] = {
 
 } // namespace
 
-MainWindow::MainWindow() : sim_(new Sim)
+MainWindow::MainWindow()
 {
     resize(1250, 760);
+    sim_ = new Simulator(this);
+    connect(sim_, &Simulator::stateChanged, this, [this] { onStateChanged(); });
     ed_.program() = makeDemoProgram();
 
     scene_ = new LadderScene(this);
@@ -96,6 +99,7 @@ MainWindow::MainWindow() : sim_(new Sim)
     const char *hint[8] = {"start", "stop", "load D0", "", "", "", "", ""};
     for (int i = 0; i < 8; i++) {
         in_[i] = new QCheckBox(QString("I%1 %2").arg(i).arg(hint[i]));
+        connect(in_[i], &QCheckBox::toggled, this, [this, i](bool on) { sim_->setInput(i, on); });
         lay->addWidget(in_[i]);
     }
     lay->addSpacing(12);
@@ -108,6 +112,43 @@ MainWindow::MainWindow() : sim_(new Sim)
     auto *dock = new QDockWidget("Simulation", this);
     dock->setWidget(panel);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
+
+    // watch and force table (bottom)
+    watch_ = new WatchModel(this);
+    auto *table = new QTableView;
+    table->setModel(watch_);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    table->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    table->verticalHeader()->hide();
+    table->horizontalHeader()->setStretchLastSection(true);
+
+    auto forceSelected = [this, table](bool enable, bool value) {
+        const QModelIndexList rows = table->selectionModel()->selectedRows();
+        for (const QModelIndex &ix : rows)
+            sim_->setForce(watch_->bitAddrForRow(ix.row()), enable, value);
+    };
+    auto *bOn = new QPushButton("Force ON");
+    auto *bOff = new QPushButton("Force OFF");
+    auto *bRel = new QPushButton("Release");
+    auto *bAll = new QPushButton("Release all");
+    connect(bOn,  &QPushButton::clicked, this, [forceSelected] { forceSelected(true, true); });
+    connect(bOff, &QPushButton::clicked, this, [forceSelected] { forceSelected(true, false); });
+    connect(bRel, &QPushButton::clicked, this, [forceSelected] { forceSelected(false, false); });
+    connect(bAll, &QPushButton::clicked, this, [this] {
+        for (int r = 0; r < watch_->rowCount(); ++r)
+            sim_->setForce(watch_->bitAddrForRow(r), false, false);
+    });
+
+    auto *ww = new QWidget;
+    auto *wl = new QVBoxLayout(ww);
+    wl->addWidget(table);
+    auto *wb = new QHBoxLayout;
+    wb->addWidget(bOn); wb->addWidget(bOff); wb->addWidget(bRel); wb->addWidget(bAll);
+    wl->addLayout(wb);
+    auto *wdock = new QDockWidget("Watch and force", this);
+    wdock->setWidget(ww);
+    addDockWidget(Qt::BottomDockWidgetArea, wdock);
 
     // actions
     auto *bar = addToolBar("Edit");
@@ -124,6 +165,7 @@ MainWindow::MainWindow() : sim_(new Sim)
     add(mFile, "&Open...", QKeySequence::Open, [this] { openFile(); });
     add(mFile, "&Save", QKeySequence::Save, [this] { saveFile(); });
     add(mFile, "Save &as...", QKeySequence(), [this] { saveFileAs(); });
+    add(mFile, "&Export as C array...", QKeySequence(), [this] { exportC(); });
     actUndo_ = add(mEdit, "&Undo", QKeySequence::Undo, [this] { ed_.undo(); modified_ = true; refresh(); }, true);
     actRedo_ = add(mEdit, "&Redo", QKeySequence("Ctrl+Y"), [this] { ed_.redo(); modified_ = true; refresh(); }, true);
     mEdit->addSeparator(); bar->addSeparator();
@@ -148,14 +190,13 @@ MainWindow::MainWindow() : sim_(new Sim)
     run->setCheckable(true);
     connect(run, &QAction::toggled, this, [this, run](bool paused) {
         run->setText(paused ? "Run" : "Pause");
-        if (paused) timer_.stop(); else timer_.start(10);
+        sim_->setRunning(!paused);
     });
     auto *reset = bar->addAction("Reset simulation");
     connect(reset, &QAction::triggered, this, [this] { refresh(); });
 
     refresh();
-    connect(&timer_, &QTimer::timeout, this, [this] { tick(); });
-    timer_.start(10);                   // one scan every 10 ms, like the PLC
+    sim_->setRunning(true);             // one scan every 10 ms, like the PLC                 // one scan every 10 ms, like the PLC
 }
 
 MainWindow::~MainWindow() = default;
@@ -166,13 +207,15 @@ void MainWindow::refresh()
     scene_->setProgram(ed_.program());
     scene_->setSelected(ed_.selected());
     if (r.ok()) {
-        ld_init(&sim_->eng);
-        const ld_status_t st = ld_load(&sim_->eng, reinterpret_cast<const uint8_t *>(r.image.constData()),
-                                       static_cast<size_t>(r.image.size()));
-        simValid_ = (st == LD_OK);
-        statusBar()->showMessage(simValid_ ? QString("Compiled: %1 instructions, %2 elements, %3 bytes")
-                                                 .arg(r.instrCount).arg(r.elemCount).arg(r.image.size())
-                                           : QString("Load error %1").arg(int(st)));
+        bool hadForces = false;
+        for (uint8_t f : sim_->state().forced) if (f) { hadForces = true; break; }
+        const QString err = sim_->load(r.image);
+        simValid_ = err.isEmpty();
+        QString msg = QString("Compiled: %1 instructions, %2 elements, %3 bytes")
+                          .arg(r.instrCount).arg(r.elemCount).arg(r.image.size());
+        if (hadForces) msg += "  (forces cleared by the new program)";
+        statusBar()->showMessage(simValid_ ? msg : err);
+        if (!simValid_) scene_->clearPower();
     } else {
         simValid_ = false;
         scene_->clearPower();
@@ -211,14 +254,13 @@ void MainWindow::onEdit(Node *n)
     if (askOperands(this, *n, o)) apply(ed_.setOperands(n, o.a, o.b, o.mode));
 }
 
-void MainWindow::tick()
+void MainWindow::onStateChanged()
 {
-    ld_engine_t &e = sim_->eng;
-    for (int i = 0; i < 8; i++) e.bits[LD_BIT_I + i] = in_[i]->isChecked() ? 1 : 0;
-    ld_scan(&e);
-    if (simValid_) scene_->showPower(e.elem_power);
+    const PlcState &st = sim_->state();
+    watch_->setState(st);
+    if (simValid_) scene_->showPower(st.elemPower);
     for (int i = 0; i < 6; i++) {
-        const bool on = e.bits[LD_BIT_Q + i];
+        const bool on = st.bits[LD_BIT_Q + i];
         out_[i]->setText(QString("Q%1  %2").arg(i).arg(on ? "ON" : "off"));
         out_[i]->setStyleSheet(on ? "color:#16a34a;font-weight:bold" : "color:#666");
     }
@@ -277,6 +319,22 @@ bool MainWindow::saveFileAs()
 {
     const QString path = QFileDialog::getSaveFileName(this, "Save ladder program", path_, "Ladder program (*.json)");
     return !path.isEmpty() && writeFile(path);
+}
+
+void MainWindow::exportC()
+{
+    CompileResult r = compileProgram(ed_.program());
+    if (!r.ok()) { QMessageBox::warning(this, "Export", "Compile error: " + r.error); return; }
+    const QString src = path_.isEmpty() ? QString() : QFileInfo(path_).fileName();
+    const QString path = QFileDialog::getSaveFileName(this, "Export as C array",
+                                                      "ladder_program.h", "C header (*.h)");
+    if (path.isEmpty()) return;
+    QFile f(path);
+    if (!f.open(QIODevice::WriteOnly) || f.write(imageToCHeader(r.image, src).toUtf8()) < 0) {
+        QMessageBox::warning(this, "Export", "Cannot write " + path);
+        return;
+    }
+    statusBar()->showMessage(QString("Exported %1 bytes to %2").arg(r.image.size()).arg(path), 5000);
 }
 
 void MainWindow::closeEvent(QCloseEvent *e)

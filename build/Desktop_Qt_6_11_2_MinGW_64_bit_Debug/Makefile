@@ -38,109 +38,187 @@ SUBTARGETS    =  \
 		sub-engine-tests-pro \
 		sub-editor-compiler_tests-pro \
 		sub-editor-edit_tests-pro \
+		sub-editor-backend_tests-pro \
+		sub-editor-watchmodel_tests-pro \
+		sub-editor-c_export_tests-pro \
 		sub-editor-editor-pro
 
 
 sub-engine-tests-pro-qmake_all:  FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd engine/ && $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
 	cd engine/ && $(MAKE) -f Makefile.tests qmake_all
 sub-engine-tests-pro: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests
 sub-engine-tests-pro-make_first: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests 
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests 
 sub-engine-tests-pro-all: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests all
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests all
 sub-engine-tests-pro-clean: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests clean
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests clean
 sub-engine-tests-pro-distclean: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests distclean
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests distclean
 sub-engine-tests-pro-install_subtargets: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests install
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests install
 sub-engine-tests-pro-uninstall_subtargets: FORCE
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests uninstall
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests uninstall
 sub-editor-compiler_tests-pro-qmake_all:  FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
 	cd editor/ && $(MAKE) -f Makefile.compiler_tests qmake_all
 sub-editor-compiler_tests-pro: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests
 sub-editor-compiler_tests-pro-make_first: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests 
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests 
 sub-editor-compiler_tests-pro-all: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests all
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests all
 sub-editor-compiler_tests-pro-clean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests clean
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests clean
 sub-editor-compiler_tests-pro-distclean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests distclean
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests distclean
 sub-editor-compiler_tests-pro-install_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests install
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests install
 sub-editor-compiler_tests-pro-uninstall_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests uninstall
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests uninstall
 sub-editor-edit_tests-pro-qmake_all:  FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
 	cd editor/ && $(MAKE) -f Makefile.edit_tests qmake_all
 sub-editor-edit_tests-pro: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests
 sub-editor-edit_tests-pro-make_first: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests 
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests 
 sub-editor-edit_tests-pro-all: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests all
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests all
 sub-editor-edit_tests-pro-clean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests clean
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests clean
 sub-editor-edit_tests-pro-distclean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests distclean
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests distclean
 sub-editor-edit_tests-pro-install_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests install
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests install
 sub-editor-edit_tests-pro-uninstall_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests uninstall
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests uninstall
+sub-editor-backend_tests-pro-qmake_all:  FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(MAKE) -f Makefile.backend_tests qmake_all
+sub-editor-backend_tests-pro: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests
+sub-editor-backend_tests-pro-make_first: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests 
+sub-editor-backend_tests-pro-all: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests all
+sub-editor-backend_tests-pro-clean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests clean
+sub-editor-backend_tests-pro-distclean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests distclean
+sub-editor-backend_tests-pro-install_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests install
+sub-editor-backend_tests-pro-uninstall_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests uninstall
+sub-editor-watchmodel_tests-pro-qmake_all:  FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(MAKE) -f Makefile.watchmodel_tests qmake_all
+sub-editor-watchmodel_tests-pro: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests
+sub-editor-watchmodel_tests-pro-make_first: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests 
+sub-editor-watchmodel_tests-pro-all: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests all
+sub-editor-watchmodel_tests-pro-clean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests clean
+sub-editor-watchmodel_tests-pro-distclean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests distclean
+sub-editor-watchmodel_tests-pro-install_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests install
+sub-editor-watchmodel_tests-pro-uninstall_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests uninstall
+sub-editor-c_export_tests-pro-qmake_all:  FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(MAKE) -f Makefile.c_export_tests qmake_all
+sub-editor-c_export_tests-pro: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests
+sub-editor-c_export_tests-pro-make_first: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests 
+sub-editor-c_export_tests-pro-all: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests all
+sub-editor-c_export_tests-pro-clean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests clean
+sub-editor-c_export_tests-pro-distclean: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests distclean
+sub-editor-c_export_tests-pro-install_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests install
+sub-editor-c_export_tests-pro-uninstall_subtargets: FORCE
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests uninstall
 sub-editor-editor-pro-qmake_all:  FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
+	cd editor/ && $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
 	cd editor/ && $(MAKE) -f Makefile qmake_all
 sub-editor-editor-pro: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile
 sub-editor-editor-pro-make_first: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile 
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile 
 sub-editor-editor-pro-all: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile all
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile all
 sub-editor-editor-pro-clean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile clean
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile clean
 sub-editor-editor-pro-distclean: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile distclean
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile distclean
 sub-editor-editor-pro-install_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile install
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile install
 sub-editor-editor-pro-uninstall_subtargets: FORCE
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile uninstall
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile uninstall
 
 Makefile: ../../plc_kit.pro E:/Qt/6.11.2/mingw_64/mkspecs/win32-g++/qmake.conf E:/Qt/6.11.2/mingw_64/mkspecs/features/spec_pre.prf \
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/device_config.prf \
@@ -375,6 +453,7 @@ Makefile: ../../plc_kit.pro E:/Qt/6.11.2/mingw_64/mkspecs/win32-g++/qmake.conf E
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/qt_config.prf \
 		E:/Qt/6.11.2/mingw_64/mkspecs/win32-g++/qmake.conf \
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/exclusive_builds.prf \
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/toolchain.prf \
 		E:/Qt/6.11.2/mingw_64/mkspecs/features/default_pre.prf \
@@ -627,6 +706,7 @@ E:/Qt/6.11.2/mingw_64/mkspecs/features/qt_functions.prf:
 E:/Qt/6.11.2/mingw_64/mkspecs/features/qt_config.prf:
 E:/Qt/6.11.2/mingw_64/mkspecs/win32-g++/qmake.conf:
 E:/Qt/6.11.2/mingw_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 E:/Qt/6.11.2/mingw_64/mkspecs/features/exclusive_builds.prf:
 E:/Qt/6.11.2/mingw_64/mkspecs/features/toolchain.prf:
 E:/Qt/6.11.2/mingw_64/mkspecs/features/default_pre.prf:
@@ -648,72 +728,108 @@ E:/Qt/6.11.2/mingw_64/mkspecs/features/lex.prf:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../../plc_kit.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
 
-qmake_all: sub-engine-tests-pro-qmake_all sub-editor-compiler_tests-pro-qmake_all sub-editor-edit_tests-pro-qmake_all sub-editor-editor-pro-qmake_all FORCE
+qmake_all: sub-engine-tests-pro-qmake_all sub-editor-compiler_tests-pro-qmake_all sub-editor-edit_tests-pro-qmake_all sub-editor-backend_tests-pro-qmake_all sub-editor-watchmodel_tests-pro-qmake_all sub-editor-c_export_tests-pro-qmake_all sub-editor-editor-pro-qmake_all FORCE
 
-make_first: sub-engine-tests-pro-make_first sub-editor-compiler_tests-pro-make_first sub-editor-edit_tests-pro-make_first sub-editor-editor-pro-make_first  FORCE
-all: sub-engine-tests-pro-all sub-editor-compiler_tests-pro-all sub-editor-edit_tests-pro-all sub-editor-editor-pro-all  FORCE
-clean: sub-engine-tests-pro-clean sub-editor-compiler_tests-pro-clean sub-editor-edit_tests-pro-clean sub-editor-editor-pro-clean  FORCE
-distclean: sub-engine-tests-pro-distclean sub-editor-compiler_tests-pro-distclean sub-editor-edit_tests-pro-distclean sub-editor-editor-pro-distclean  FORCE
+make_first: sub-engine-tests-pro-make_first sub-editor-compiler_tests-pro-make_first sub-editor-edit_tests-pro-make_first sub-editor-backend_tests-pro-make_first sub-editor-watchmodel_tests-pro-make_first sub-editor-c_export_tests-pro-make_first sub-editor-editor-pro-make_first  FORCE
+all: sub-engine-tests-pro-all sub-editor-compiler_tests-pro-all sub-editor-edit_tests-pro-all sub-editor-backend_tests-pro-all sub-editor-watchmodel_tests-pro-all sub-editor-c_export_tests-pro-all sub-editor-editor-pro-all  FORCE
+clean: sub-engine-tests-pro-clean sub-editor-compiler_tests-pro-clean sub-editor-edit_tests-pro-clean sub-editor-backend_tests-pro-clean sub-editor-watchmodel_tests-pro-clean sub-editor-c_export_tests-pro-clean sub-editor-editor-pro-clean  FORCE
+distclean: sub-engine-tests-pro-distclean sub-editor-compiler_tests-pro-distclean sub-editor-edit_tests-pro-distclean sub-editor-backend_tests-pro-distclean sub-editor-watchmodel_tests-pro-distclean sub-editor-c_export_tests-pro-distclean sub-editor-editor-pro-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) .qmake.stash
-install_subtargets: sub-engine-tests-pro-install_subtargets sub-editor-compiler_tests-pro-install_subtargets sub-editor-edit_tests-pro-install_subtargets sub-editor-editor-pro-install_subtargets FORCE
-uninstall_subtargets: sub-engine-tests-pro-uninstall_subtargets sub-editor-compiler_tests-pro-uninstall_subtargets sub-editor-edit_tests-pro-uninstall_subtargets sub-editor-editor-pro-uninstall_subtargets FORCE
+install_subtargets: sub-engine-tests-pro-install_subtargets sub-editor-compiler_tests-pro-install_subtargets sub-editor-edit_tests-pro-install_subtargets sub-editor-backend_tests-pro-install_subtargets sub-editor-watchmodel_tests-pro-install_subtargets sub-editor-c_export_tests-pro-install_subtargets sub-editor-editor-pro-install_subtargets FORCE
+uninstall_subtargets: sub-engine-tests-pro-uninstall_subtargets sub-editor-compiler_tests-pro-uninstall_subtargets sub-editor-edit_tests-pro-uninstall_subtargets sub-editor-backend_tests-pro-uninstall_subtargets sub-editor-watchmodel_tests-pro-uninstall_subtargets sub-editor-c_export_tests-pro-uninstall_subtargets sub-editor-editor-pro-uninstall_subtargets FORCE
 
 sub-engine-tests-pro-debug:
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests debug
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests debug
 sub-editor-compiler_tests-pro-debug:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests debug
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests debug
 sub-editor-edit_tests-pro-debug:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests debug
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests debug
+sub-editor-backend_tests-pro-debug:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests debug
+sub-editor-watchmodel_tests-pro-debug:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests debug
+sub-editor-c_export_tests-pro-debug:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests debug
 sub-editor-editor-pro-debug:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile debug
-debug: sub-engine-tests-pro-debug sub-editor-compiler_tests-pro-debug sub-editor-edit_tests-pro-debug sub-editor-editor-pro-debug
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile debug
+debug: sub-engine-tests-pro-debug sub-editor-compiler_tests-pro-debug sub-editor-edit_tests-pro-debug sub-editor-backend_tests-pro-debug sub-editor-watchmodel_tests-pro-debug sub-editor-c_export_tests-pro-debug sub-editor-editor-pro-debug
 
 sub-engine-tests-pro-release:
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests release
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests release
 sub-editor-compiler_tests-pro-release:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests release
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests release
 sub-editor-edit_tests-pro-release:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests release
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests release
+sub-editor-backend_tests-pro-release:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests release
+sub-editor-watchmodel_tests-pro-release:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests release
+sub-editor-c_export_tests-pro-release:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests release
 sub-editor-editor-pro-release:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile release
-release: sub-engine-tests-pro-release sub-editor-compiler_tests-pro-release sub-editor-edit_tests-pro-release sub-editor-editor-pro-release
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile release
+release: sub-engine-tests-pro-release sub-editor-compiler_tests-pro-release sub-editor-edit_tests-pro-release sub-editor-backend_tests-pro-release sub-editor-watchmodel_tests-pro-release sub-editor-c_export_tests-pro-release sub-editor-editor-pro-release
 
 sub-engine-tests-pro-check:
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests check
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests check
 sub-editor-compiler_tests-pro-check:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests check
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests check
 sub-editor-edit_tests-pro-check:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests check
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests check
+sub-editor-backend_tests-pro-check:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests check
+sub-editor-watchmodel_tests-pro-check:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests check
+sub-editor-c_export_tests-pro-check:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests check
 sub-editor-editor-pro-check:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile check
-check: sub-engine-tests-pro-check sub-editor-compiler_tests-pro-check sub-editor-edit_tests-pro-check sub-editor-editor-pro-check
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile check
+check: sub-engine-tests-pro-check sub-editor-compiler_tests-pro-check sub-editor-edit_tests-pro-check sub-editor-backend_tests-pro-check sub-editor-watchmodel_tests-pro-check sub-editor-c_export_tests-pro-check sub-editor-editor-pro-check
 
 sub-engine-tests-pro-benchmark:
 	@test -d engine/ || mkdir -p engine/
-	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests benchmark
+	cd engine/ && ( test -e Makefile.tests || $(QMAKE) -o Makefile.tests C:/plc_kit/engine/tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.tests benchmark
 sub-editor-compiler_tests-pro-benchmark:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests benchmark
+	cd editor/ && ( test -e Makefile.compiler_tests || $(QMAKE) -o Makefile.compiler_tests C:/plc_kit/editor/compiler_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.compiler_tests benchmark
 sub-editor-edit_tests-pro-benchmark:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests benchmark
+	cd editor/ && ( test -e Makefile.edit_tests || $(QMAKE) -o Makefile.edit_tests C:/plc_kit/editor/edit_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.edit_tests benchmark
+sub-editor-backend_tests-pro-benchmark:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.backend_tests || $(QMAKE) -o Makefile.backend_tests C:/plc_kit/editor/backend_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.backend_tests benchmark
+sub-editor-watchmodel_tests-pro-benchmark:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.watchmodel_tests || $(QMAKE) -o Makefile.watchmodel_tests C:/plc_kit/editor/watchmodel_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.watchmodel_tests benchmark
+sub-editor-c_export_tests-pro-benchmark:
+	@test -d editor/ || mkdir -p editor/
+	cd editor/ && ( test -e Makefile.c_export_tests || $(QMAKE) -o Makefile.c_export_tests C:/plc_kit/editor/c_export_tests.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile.c_export_tests benchmark
 sub-editor-editor-pro-benchmark:
 	@test -d editor/ || mkdir -p editor/
-	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/Users/Peace/Downloads/plc_kit_step3/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile benchmark
-benchmark: sub-engine-tests-pro-benchmark sub-editor-compiler_tests-pro-benchmark sub-editor-edit_tests-pro-benchmark sub-editor-editor-pro-benchmark
+	cd editor/ && ( test -e Makefile || $(QMAKE) -o Makefile C:/plc_kit/editor/editor.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug ) && $(MAKE) -f Makefile benchmark
+benchmark: sub-engine-tests-pro-benchmark sub-editor-compiler_tests-pro-benchmark sub-editor-edit_tests-pro-benchmark sub-editor-backend_tests-pro-benchmark sub-editor-watchmodel_tests-pro-benchmark sub-editor-c_export_tests-pro-benchmark sub-editor-editor-pro-benchmark
 install:install_subtargets  FORCE
 
 uninstall: uninstall_subtargets FORCE
