@@ -1,0 +1,4 @@
+../Core/Src/plc_io.c:23:6:plc_io_init	4
+../Core/Src/plc_io.c:48:9:plc_io_read_inputs	3
+../Core/Src/plc_io.c:58:6:plc_io_write_outputs	2
+../Core/Src/plc_io.c:63:6:plc_io_led_toggle	1

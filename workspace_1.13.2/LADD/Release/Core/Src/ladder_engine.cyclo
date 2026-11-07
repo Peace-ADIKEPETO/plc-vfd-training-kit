@@ -1,0 +1,7 @@
+../Core/Src/ladder_engine.c:5:10:ld_crc16	4
+../Core/Src/ladder_engine.c:24:6:ld_init	1
+../Core/Src/ladder_engine.c:26:6:ld_force_input	2
+../Core/Src/ladder_engine.c:33:6:ld_force_output	2
+../Core/Src/ladder_engine.c:40:6:ld_clear_forces	1
+../Core/Src/ladder_engine.c:114:13:ld_load	45
+../Core/Src/ladder_engine.c:140:13:ld_scan	45
