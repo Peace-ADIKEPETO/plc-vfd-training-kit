@@ -2,18 +2,21 @@
 
 ![Qt 6](https://img.shields.io/badge/Qt-6-41cd52)
 ![C11](https://img.shields.io/badge/C-11-blue)
-![Status](https://img.shields.io/badge/status-software%20complete%2C%20hardware%20planned-orange)
+![Status](https://img.shields.io/badge/status-software%20complete%2C%20hardware%20in%20progress-orange)
 
 A low-cost teaching kit for industrial automation: a custom **PLC**, a **Qt6 ladder editor with simulator**, and integration with a commercial **Schneider Altivar 18 VFD**, designed for lab practicals at EPAC (École Polytechnique d'Abomey-Calavi, Benin).
 
 Final-year project by Peace Georland ADIKPETO, Electrical Engineering, Industrial Process Control.
 
-> **Status as of November 2026:** The ladder software (engine, compiler, editor, simulator, watch/force table) is complete and tested. The hardware (Blue Pill PLC shield) is being built. The project has pivoted to using the lab's Altivar 18 VFD via discrete terminal wiring, eliminating the high-voltage risks of building a custom VFD.
+> **Status as of 7 November 2026:** The ladder software (engine, compiler, editor, simulator, watch/force table, C-array export) is complete and fully tested. The Blue Pill (STM32F103) firmware is running the C engine with a 10 ms scan cycle. The Modbus Register Map v1 is defined. The project uses the lab's Altivar 18 VFD via discrete terminal wiring, eliminating the high-voltage risks of building a custom VFD.
 
 ## Screenshots
 
 ![Ladder editor](docs/images/pp.png)
 ![Live simulation](docs/images/pt.png)
+
+![PuTTy](docs/images/po.png)
+![Demo](docs/images/pm.jpg)
 
 ---
 
@@ -23,13 +26,14 @@ Final-year project by Peace Georland ADIKPETO, Electrical Engineering, Industria
 2. [Project status](#project-status)
 3. [System architecture](#system-architecture)
 4. [Ladder software](#ladder-software)
-5. [Hardware design (planned)](#hardware-design-planned)
+5. [Hardware design](#hardware-design)
 6. [Student safety concept](#student-safety-concept)
 7. [Building and running the software](#building-and-running-the-software)
 8. [Repository layout](#repository-layout)
 9. [Roadmap](#roadmap)
-10. [Design decisions](#design-decisions)
-11. [Cost](#cost)
+10. [Known limitations](#known-limitations)
+11. [Design decisions](#design-decisions)
+12. [Cost](#cost)
 
 ---
 
@@ -40,12 +44,12 @@ Commercial PLC and drive trainers are expensive and closed. This project builds 
 **In the kit (built in this project)**
 
 - **PLC board:** 8 opto-isolated 24 V inputs, 6 relay outputs (24 V only), RS485 port, 10 ms scan cycle, custom ladder interpreter.
-- **Qt6 ladder editor:** Drag-and-drop interface with a built-in simulator that runs the exact same C engine as the PLC. Includes a live Watch & Force table.
+- **Qt6 ladder editor:** Drag-and-drop interface with a built-in simulator that runs the exact same C engine as the PLC. Includes a live Watch & Force table and C-array export.
 - **Six lab exercises** and a student guide.
 
 **Provided by the lab**
 
-- **Schneider Altivar 18 (ATV18)** VFD (7.5 kW).
+- **Schneider Altivar 18 (ATV18)** VFD.
 - Three-phase motor (0.37 to 0.75 kW), contactors, e-stop, earthed bench supply with RCD, sensors and loads.
 
 **Out of scope**
@@ -65,9 +69,11 @@ Commercial PLC and drive trainers are expensive and closed. This project builds 
 | Ladder editor (Qt6) | Done | Drag-and-drop, operand editing, parallel branches, undo/redo, JSON save/load, 118 checks |
 | Simulator & Backend (Qt6) | Done | Isolates UI from C engine, supports forcing, 23 checks |
 | Watch & Force Model (Qt6) | Done | QAbstractTableModel for live I/O monitoring and forcing, 21 checks |
-| Modbus link between editor and PLC | Not started | Needs the PLC register map and a board to test against |
-| PLC board and firmware | In progress | STM32F103 (Blue Pill) shield with PC817 inputs, ULN2003A/relays, MAX485 |
-| VFD integration | In progress | Terminal control via PLC relays to ATV18 logic inputs (no Modbus on ATV18) |
+| C-array export | Done | Export ladder to C header for firmware, 10 checks |
+| Modbus Register Map | Done | Defined in v1 doc + `plc_modbus_map.h` |
+| Firmware (Blue Pill) | Done | 72 MHz clock, USART1, 10 ms scan, I/O mapping. Demo LEDs blink. |
+| Modbus link (PC to PLC) | Not started | Needs `modbus_slave.c` and `QtModbusBackend` |
+| VFD integration | Not started | Terminal control via PLC relays to ATV18 logic inputs |
 | Lab exercises and student guide | Not started | |
 
 ---
@@ -97,7 +103,7 @@ Plain C with no hardware dependency. Call `ld_scan()` every 10 ms.
 - **Structure:** series elements and nested parallel branches (up to 4 levels).
 - **Limits:** 512 instructions, 256 animation ids, 16 timers, 16 counters.
 - **Forcing:** `ld_force_input` and `ld_force_output` allow overriding physical bits from the HMI.
-- **Program image:** 8-byte header (magic, version, instruction count, Modbus CRC-16).
+- **Program image:** 8-byte header (magic, version, instruction count, Modbus CRC-16) followed by 8-byte instructions.
 
 ### Editor (`editor/`)
 
@@ -108,10 +114,11 @@ Qt6 Widgets application.
 - Undo and redo, save and open as JSON.
 - Live simulator: toggle inputs, watch outputs and elements turning green.
 - **Watch & Force Table:** View live states of I0-I7 and Q0-Q5. Force bits ON/OFF to test logic without physical hardware.
+- **Export:** Generate C-array code from the ladder to paste directly into the firmware.
 
 ---
 
-## Hardware design (planned)
+## Hardware design
 
 ### PLC
 
@@ -146,8 +153,21 @@ Qt6 Widgets application.
 **Requirements:** Qt 6 with the Widgets and SerialBus modules, and a C/C++ compiler.
 
 1. Open `plc_kit.pro` in Qt Creator and choose **Build All**.
-2. Run the test programs: `test_engine` (76), `test_compiler` (25), `test_edit` (118), `test_backend` (23), `test_watchmodel` (21). Total: 263 checks.
+2. Run the test programs: `test_engine` (76), `test_compiler` (25), `test_edit` (118), `test_backend` (23), `test_watchmodel` (21), `test_cexport` (10).
 3. Choose `ladder_editor` as the run target.
+
+---
+
+## Repository layout
+
+```
+plc_kit.pro          qmake subdirs project
+engine/              portable C ladder engine, SPEC.md, unit tests
+editor/              Qt6 editor: model, compiler, editing core, scene, window, tests
+docs/                documentation: BOM, safety concept, images
+hardware/            KiCad projects for the PLC (planned)
+firmware/            STM32F103 firmware (running ladder engine)
+```
 
 ---
 
@@ -160,16 +180,26 @@ Qt6 Widgets application.
 - [x] Editor with drag and drop, operand editing, branches, undo/redo, save/load
 - [x] Live simulator with element animation
 - [x] Watch and force table, forcing inside the C engine
-- [ ] Symbol names for addresses
-- [ ] PLC Modbus register map, portable Modbus slave handler, editor link (upload, live polling)
+- [x] C-array export for firmware
+- [x] Modbus register map v1
+- [ ] Portable Modbus slave handler (`modbus_slave.c`)
+- [ ] Qt ModbusBackend (upload, live polling)
 
 **Hardware and firmware**
 
+- [x] Flash the Blue Pill, test demo program (I0 latch, I1 stop, Q1 after 1s, I2 to Q2, arduino use as uart bridge)
 - [ ] Build the PLC shield (solder PC817, relays, MAX485).
 - [ ] Wire the PLC to the ATV18 (Q0->LI1, Q1->LI2, Q2->LI3, Q3->LI4).
-- [ ] Bring-up: Flash the Blue Pill, test Modbus link from Qt.
-- [ ] PLC firmware: scan loop, I/O, Modbus slave, forcing, program upload.
+- [ ] Test Modbus link over UART (Phase A), then over RS485 (Phase B).
 - [ ] Six lab exercises and the student guide.
+
+---
+
+## Known limitations
+
+- Ladder rungs are series and parallel only; bridge circuits are not supported.
+- Wrapping in a branch applies to one contact at a time; elements cannot be moved by dragging yet.
+- Timer and counter presets are constants.
 
 ---
 
